@@ -1,49 +1,36 @@
-import os
-import queue
+import whisper
 import sounddevice as sd
-import vosk
+import numpy as np
 import pyttsx3
-import json
 
-# Text-to-speech engine
-engine = pyttsx3.init()
-engine.setProperty("rate", 150)
+model = whisper.load_model("small")  
+tts = pyttsx3.init()
 
 def speak(text):
-    engine.say(text)
-    engine.runAndWait()
-
-# Load vosk model
-model_path = os.path.join("models", "vosk-model-small-en-us-0.15")
-if not os.path.exists(model_path):
-    print("❌ Model not found! Please download and place it in 'models' folder.")
-    exit()
-
-model = vosk.Model(model_path)
-q = queue.Queue()
-
-def callback(indata, frames, time, status):
-    if status:
-        print(status, flush=True)
-    q.put(bytes(indata))
+    print(f"Jarvis: {text}")
+    tts.say(text)
+    tts.runAndWait()
 
 def listen():
-    with sd.RawInputStream(samplerate=16000, blocksize=8000, dtype="int16",
-                           channels=1, callback=callback):
-        rec = vosk.KaldiRecognizer(model, 16000)
-        while True:
-            data = q.get()
-            if rec.AcceptWaveform(data):
-                result = json.loads(rec.Result())
-                return result.get("text", "").strip()
+    duration = 5  
+    sr = 16000
+    print("🎤 Listening...")
+    audio = sd.rec(int(duration * sr), samplerate=sr, channels=1, dtype=np.float32)
+    sd.wait()
+    return np.squeeze(audio)
 
-if __name__ == "__main__":
-    speak("Hello, I am Jarvis. How can I help you?")
-    while True:
-        text = listen()
-        if text:
-            print(f"You said: {text}")
+while True:
+    audio_data = listen()
+    result = model.transcribe(audio_data, fp16=False)
+    text = result['text'].strip()
+    
+    if text:
+        print(f"You said: {text}")
+        if "stop" in text.lower():
+            speak("Goodbye!")
+            break
+        elif "open google" in text.lower():
+            speak("Opening Google")
+        else:
             speak(f"You said {text}")
-            if "exit" in text or "quit" in text:
-                speak("Goodbye!")
-                break
+
