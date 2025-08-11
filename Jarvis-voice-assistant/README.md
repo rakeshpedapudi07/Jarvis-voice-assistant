@@ -9,7 +9,8 @@ A simple offline voice assistant built using [Vosk](https://alphacephei.com/vosk
 
 ## Installation
 ```bash
-git clone https://github.com/YOUR_USERNAME/jarvis-voice-assistant.git
+git clone https://github.com/rakeshpedapudi07/jarvis-voice-assistant.git
 cd jarvis-voice-assistant
 pip install -r requirements.txt
 python src/jarvis.py
+
