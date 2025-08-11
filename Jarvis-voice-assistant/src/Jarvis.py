@@ -14,7 +14,7 @@ def speak(text):
 def listen():
     duration = 5  
     sr = 16000
-    print("🎤 Listening...")
+    print(" Listening...")
     audio = sd.rec(int(duration * sr), samplerate=sr, channels=1, dtype=np.float32)
     sd.wait()
     return np.squeeze(audio)
@@ -33,4 +33,5 @@ while True:
             speak("Opening Google")
         else:
             speak(f"You said {text}")
+
 
