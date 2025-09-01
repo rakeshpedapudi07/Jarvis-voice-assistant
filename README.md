@@ -1,5 +1,4 @@
 # Jarvis Voice Assistant
-
 Jarvis is an **offline Python-based voice assistant** using [Vosk](https://github.com/alphacep/vosk-api) for speech recognition and `pyttsx3` for text-to-speech.  
 It listens to your voice, processes commands locally (no internet needed), and responds with spoken output.
 
