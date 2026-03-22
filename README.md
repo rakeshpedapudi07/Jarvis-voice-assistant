@@ -4,10 +4,10 @@ It listens to your voice, processes commands locally (no internet needed), and r
 
 --
 ## Features
-- 🎤 **Offline voice recognition** with Vosk
-- 🔊 **Text-to-speech** using `pyttsx3`
-- 🖥 Simple voice commands (e.g., "stop", "open Google")
-- 🚀 Modular code structure for easy customization
+-  **Offline voice recognition** with Vosk
+-  **Text-to-speech** using `pyttsx3`
+-  Simple voice commands (e.g., "stop", "open Google")
+-  Modular code structure for easy customization
 
 ---
 
